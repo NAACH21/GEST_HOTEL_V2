@@ -4,6 +4,9 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QLineEdi
         QRadioButton, QTextBrowser
 from PyQt6.uic.Compiler.qtproxies import QtCore
 from Main import Ui_Form
+import os
+
+
 
 import conexion
 class Ui_MainWindow(object):
@@ -134,7 +137,7 @@ class Ui_MainWindow(object):
                 self.label_4.setObjectName(u"label_4")
                 self.label_4.setGeometry(QRect(120, 0, 221, 231))
                 self.label_4.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
-                self.label_4.setPixmap(QPixmap(u"OIP.jpeg"))
+                self.label_4.setPixmap(QPixmap(resource_path(u"OIP.jpeg")))
                 self.label_4.setScaledContents(True)
                 self.label = QLabel(self.widget_2)
                 self.label.setObjectName(u"label")
@@ -217,6 +220,10 @@ class Ui_MainWindow(object):
                 except Exception as e:
                         QMessageBox.warning(None, "Error", str(e))
 
+def resource_path(relative_path):
+        """Obtiene la ruta absoluta de los recursos para el ejecutable o script."""
+        base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
+        return os.path.join(base_path, relative_path)
 
 import sys
 class MainWindow(QMainWindow, Ui_MainWindow):

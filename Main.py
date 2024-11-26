@@ -5,6 +5,8 @@ from PyQt6.QtCore import QRect, pyqtSignal, Qt, QCoreApplication, QMetaObject
 from PyQt6.QtGui import QPixmap, QFont
 from PyQt6.QtWidgets import QMainWindow, QApplication, QLabel, QWidget, QStatusBar
 
+from images import resource_path
+
 from gestionReserva import Ui_GestReser
 from reservarHabitacion import Ui_ReserHabi
 from gestionHabitacion import  Ui_GestHabi

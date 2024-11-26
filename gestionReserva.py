@@ -671,18 +671,20 @@ class Ui_GestReser(QtWidgets.QWidget):
                 #QMessageBox.information(self, "Correcto", "Reservacion encontrada.")
                 try:
                         idReserva = self.txt_busc1.text().upper()
-                        sql = f"SELECT * FROM reserva WHERE Reserva_ID = {idReserva}"
+                        sql = f"SELECT * FROM reserva WHERE Reserva_ID = '{idReserva}'"
                         self.resultado = conexion.resultadoSQL(sql)
-                        sql2 = f"SELECT * FROM Factura WHERE Reserva_ID = {idReserva}"
+                        sql2 = f"SELECT * FROM Factura WHERE Reserva_ID = '{idReserva}'"
                         self.resultado2 = conexion.resultadoSQL(sql2)
-                        sql1 = f"SELECT * FROM ServiciosExtra WHERE Reserva_ID = {idReserva}"
+                        sql1 = f"SELECT * FROM ServiciosExtra WHERE Reserva_ID = '{idReserva}'"
                         self.resultado1 = conexion.resultadoSQL(sql1)
                         if len(self.resultado) != 0:
                                 self.idMod = self.resultado[0][0]
                                 self.txt_usuario_reser.setText(str(self.resultado[0][2]))
                                 self.txt_habitacion.setText(str(self.resultado[0][3]))
-                                self.dateTimeingreso.setDateTime(self.resultado[0][4])
-                                self.dateTimeEditSalida.setDateTime(self.resultado[0][5])
+                                fecha_ingreso = QDateTime.fromString(self.resultado[0][4], "yyyy-MM-dd HH:mm:ss")
+                                fecha_salida = QDateTime.fromString(self.resultado[0][5], "yyyy-MM-dd HH:mm:ss")
+                                self.dateTimeingreso.setDateTime(fecha_ingreso)
+                                self.dateTimeEditSalida.setDateTime(fecha_salida)
                                 self.txt_met_PAgo.setText(str(self.resultado2[0][4]))
                                 self.labelmontfin.setText(str(self.resultado2[0][1]))
                                 self.mostrar_botones()

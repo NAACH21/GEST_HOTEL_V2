@@ -12,7 +12,10 @@ from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableWidgetItem, QPushButton
 from pyexpat.errors import messages
 import conexion
-
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+from datetime import datetime
 
 class Ui_Reportes(QtWidgets.QWidget):
     def setupUi(self, Form):
@@ -144,7 +147,7 @@ class Ui_Reportes(QtWidgets.QWidget):
         self.lblTotalGastado_2.setGeometry(QtCore.QRect(340, 130, 111, 16))
         self.lblTotalGastado_2.setObjectName("lblTotalGastado_2")
         self.widget_5 = QtWidgets.QWidget(parent=self.widget)
-        self.widget_5.setGeometry(QtCore.QRect(70, 300, 1131, 341))
+        self.widget_5.setGeometry(QtCore.QRect(70, 300, 1131, 291))
         self.widget_5.setStyleSheet("border: 1px solid rgb(239, 239, 239);\n"
                                     "border-radius: 8px;")
         self.widget_5.setObjectName("widget_5")
@@ -211,10 +214,10 @@ class Ui_Reportes(QtWidgets.QWidget):
                                        "}")
         self.btnBuscar_3.setObjectName("btnBuscar_3")
         self.lblserviciosextra = QtWidgets.QLabel(parent=self.widget_5)
-        self.lblserviciosextra.setGeometry(QtCore.QRect(520, 40, 221, 16))
+        self.lblserviciosextra.setGeometry(QtCore.QRect(520, 40, 281, 16))
         self.lblserviciosextra.setObjectName("lblserviciosextra")
         self.lbltotalfacturacioservicios = QtWidgets.QLabel(parent=self.widget_5)
-        self.lbltotalfacturacioservicios.setGeometry(QtCore.QRect(520, 70, 221, 16))
+        self.lbltotalfacturacioservicios.setGeometry(QtCore.QRect(520, 70, 231, 16))
         self.lbltotalfacturacioservicios.setObjectName("lbltotalfacturacioservicios")
         self.lblpromdiasreserva = QtWidgets.QLabel(parent=self.widget_5)
         self.lblpromdiasreserva.setGeometry(QtCore.QRect(520, 100, 221, 16))
@@ -236,12 +239,54 @@ class Ui_Reportes(QtWidgets.QWidget):
         self.tableWidget_2.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_2.setHorizontalHeaderItem(5, item)
+        self.btnBuscar_4 = QtWidgets.QPushButton(parent=self.widget)
+        self.btnBuscar_4.setGeometry(QtCore.QRect(230, 630, 211, 41))
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.btnBuscar_4.setFont(font)
+        self.btnBuscar_4.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.btnBuscar_4.setStyleSheet("QPushButton {\n"
+                                       "    border-radius: 20px;\n"
+                                       "    background-color: rgb(24, 71, 113);\n"
+                                       "    color: rgb(255, 255, 255);\n"
+                                       "}\n"
+                                       "\n"
+                                       "QPushButton:hover {\n"
+                                       "    background-color: rgb(255, 255, 255);\n"
+                                       "    color: rgb(24, 71, 113);\n"
+                                       "    border: 1px solid rgb(24, 71, 113);\n"
+                                       "}")
+        self.btnBuscar_4.setObjectName("btnBuscar_4")
+        self.btnBuscar_4.clicked.connect(lambda: self.generar_pdf_reporte())
+
+        self.btnBuscar_5 = QtWidgets.QPushButton(parent=self.widget)
+        self.btnBuscar_5.setGeometry(QtCore.QRect(610, 630, 211, 41))
+        font = QtGui.QFont()
+        font.setBold(True)
+        self.btnBuscar_5.setFont(font)
+        self.btnBuscar_5.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.btnBuscar_5.setStyleSheet("QPushButton {\n"
+                                       "    border-radius: 20px;\n"
+                                       "    background-color: rgb(24, 71, 113);\n"
+                                       "    color: rgb(255, 255, 255);\n"
+                                       "}\n"
+                                       "\n"
+                                       "QPushButton:hover {\n"
+                                       "    background-color: rgb(255, 255, 255);\n"
+                                       "    color: rgb(24, 71, 113);\n"
+                                       "    border: 1px solid rgb(24, 71, 113);\n"
+                                       "}")
+        self.btnBuscar_5.setObjectName("btnBuscar_5")
         self.frame.raise_()
         self.txtLogo.raise_()
         self.widget_4.raise_()
         self.widget_5.raise_()
+        self.btnBuscar_4.raise_()
+        self.btnBuscar_5.raise_()
 
         self.retranslateUi(Form)
+        self.btnBuscar_5.clicked.connect(self.generar_pdf_por_habitacion)
+
         # Conexión del botón "Regresar" para volver a la ventana anterior
         self.btnRegresar.clicked.connect(self.open_regresar)
         # Conexión del botón "Generar" para reporte por cliente
@@ -281,7 +326,7 @@ class Ui_Reportes(QtWidgets.QWidget):
         item.setText(_translate("Form", "Estado"))
         item = self.tableWidget.horizontalHeaderItem(5)
         item.setText(_translate("Form", "Precio Total"))
-        self.lblTotalReservas.setText(_translate("Form", "Total de reservas: "))
+        self.lblTotalReservas.setText(_translate("Form", "Total de Reservas:"))
         self.lblTotalGastado.setText(_translate("Form", "Total Gastado: "))
         self.lblTotalReservas_2.setText(_translate("Form", ""))
         self.lblTotalGastado_2.setText(_translate("Form", ""))
@@ -293,8 +338,8 @@ class Ui_Reportes(QtWidgets.QWidget):
         self.label_5.setText(_translate("Form", "Reservas Relacionadas"))
         self.label_6.setText(_translate("Form", "Detalles sobre uso"))
         self.btnBuscar_3.setText(_translate("Form", "GENERAR"))
-        self.lblserviciosextra.setText(_translate("Form", "Servicio favorito: "))
-        self.lbltotalfacturacioservicios.setText(_translate("Form", ""))
+        self.lblserviciosextra.setText(_translate("Form", "Servicio extra favorito"))
+        self.lbltotalfacturacioservicios.setText(_translate("Form", "Costo de servivio extra favorito:"))
         self.lblpromdiasreserva.setText(_translate("Form", "Promedio de días reservada"))
         item = self.tableWidget_2.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Cliente ID"))
@@ -308,6 +353,100 @@ class Ui_Reportes(QtWidgets.QWidget):
         item.setText(_translate("Form", "Fecha Salida"))
         item = self.tableWidget_2.horizontalHeaderItem(5)
         item.setText(_translate("Form", "Monto"))
+        self.btnBuscar_4.setText(_translate("Form", "GENERAR PDF POR CLIENTE"))
+        self.btnBuscar_5.setText(_translate("Form", "GENERAR PDF POR HABITACIÓN"))
+
+    def generar_pdf_por_habitacion(self, filename=None):
+        """
+        Genera un PDF con la información del reporte por habitación.
+        """
+        try:
+            tipo_habitacion = self.cmbClientes_2.currentData()
+
+            # Validar tipo de habitación
+            if not tipo_habitacion:
+                QMessageBox.warning(None, "Advertencia", "Selecciona un tipo de habitación válido.")
+                return
+
+            # Generar un nombre único si no se proporciona filename
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = filename or f"reporte_habitacion_{tipo_habitacion}_{timestamp}.pdf"
+
+            if not filename or filename == "False":  # Validación extra por seguridad
+                QMessageBox.critical(None, "Error", "El nombre del archivo no es válido.")
+                return
+
+            # Crear el documento PDF
+            pdf = SimpleDocTemplate(filename)
+
+            # Contenedor para los elementos del PDF
+            elementos = []
+
+            # Título del PDF
+            from reportlab.platypus import Paragraph
+            from reportlab.lib.styles import getSampleStyleSheet
+            estilos = getSampleStyleSheet()
+            titulo = Paragraph(f"<b>Reporte por Habitación: {tipo_habitacion}</b>", estilos['Title'])
+            elementos.append(titulo)
+
+            # Espacio entre secciones
+            elementos.append(Paragraph("<br/><br/>", estilos['Normal']))
+
+            # Estadísticas generales
+            sql_estadisticas = """
+                SELECT COUNT(h.Habitacion_ID), COUNT(DISTINCT r.Reserva_ID), COALESCE(SUM(f.Monto), 0)
+                FROM Habitacion h
+                LEFT JOIN Reserva r ON h.Habitacion_ID = r.Habitacion_ID
+                LEFT JOIN Factura f ON r.Reserva_ID = f.Reserva_ID
+                WHERE h.Tipo = ?
+            """
+            estadisticas = conexion.resultadoSQL(sql_estadisticas, (tipo_habitacion,))
+            total_habitaciones, total_reservas, facturacion_total = estadisticas[0]
+
+            # Agregar estadísticas al PDF
+            elementos.append(Paragraph(f"<b>Cantidad de Habitaciones:</b> {total_habitaciones}", estilos['Normal']))
+            elementos.append(Paragraph(f"<b>Cantidad de Reservas:</b> {total_reservas}", estilos['Normal']))
+            elementos.append(Paragraph(f"<b>Facturación Total:</b> S/{facturacion_total:.2f}", estilos['Normal']))
+            elementos.append(Paragraph("<br/><br/>", estilos['Normal']))
+
+            # Datos de clientes que reservaron esta habitación
+            sql_clientes = """
+                SELECT c.DNI_Cliente, c.Nombres || ' ' || c.Apellidos AS Nombre, r.Fech_Entrada, r.Fech_Salida, f.Monto
+                FROM Cliente c
+                JOIN Reserva r ON c.DNI_Cliente = r.DNI_Cliente
+                JOIN Habitacion h ON r.Habitacion_ID = h.Habitacion_ID
+                LEFT JOIN Factura f ON r.Reserva_ID = f.Reserva_ID
+                WHERE h.Tipo = ?
+            """
+            clientes = conexion.resultadoSQL(sql_clientes, (tipo_habitacion,))
+            data = [["DNI Cliente", "Nombre", "Fecha Entrada", "Fecha Salida", "Monto"]]
+            for cliente in clientes:
+                data.append([str(c) for c in cliente])
+
+            # Crear tabla para los datos de clientes
+            tabla_clientes = Table(data)
+            tabla_clientes.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ]))
+
+            # Agregar tabla al PDF
+            elementos.append(tabla_clientes)
+
+            # Crear el PDF
+            pdf.build(elementos)
+
+            # Mostrar mensaje de éxito
+            QMessageBox.information(None, "Éxito", f"Reporte PDF generado exitosamente: {filename}")
+
+        except Exception as e:
+            QMessageBox.critical(None, "Error", f"No se pudo generar el PDF: {e}")
+
     def cargar_tipos_habitacion(self):
         """Carga los tipos de habitación en el combo box."""
         try:
@@ -455,6 +594,77 @@ class Ui_Reportes(QtWidgets.QWidget):
             self.lblTotalGastado.setText(f"Total Gastado: S/{total_gastado:.2f}")
         except Exception as e:
             QMessageBox.critical(None, "Error", f"No se pudo generar el reporte: {e}")
+
+    def generar_pdf_reporte(self, filename=None):
+        """
+        Genera un PDF con la información del reporte actual mostrado en la ventana.
+        """
+        try:
+            # Generar un nombre único si no se proporciona filename
+            if filename is None:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"reporte_cliente_{timestamp}.pdf"
+
+            # Crear el documento PDF
+            pdf = SimpleDocTemplate(filename, pagesize=letter)
+
+            # Contenedor para los elementos del PDF
+            elementos = []
+
+            # Título del reporte
+            from reportlab.platypus import Paragraph
+            from reportlab.lib.styles import getSampleStyleSheet
+            estilos = getSampleStyleSheet()
+            titulo = Paragraph("<b>Reporte Generado</b>", estilos['Title'])
+            elementos.append(titulo)
+
+            # Espacio después del título
+            elementos.append(Paragraph("<br/><br/>", estilos['Normal']))
+
+            # Extraer datos de QTableWidget (tableWidget)
+            headers = []
+            data = []
+
+            # Obtener encabezados
+            for col in range(self.tableWidget.columnCount()):
+                headers.append(self.tableWidget.horizontalHeaderItem(col).text())
+
+            # Agregar encabezados a los datos
+            data.append(headers)
+
+            # Obtener las filas de la tabla
+            for row in range(self.tableWidget.rowCount()):
+                fila = []
+                for col in range(self.tableWidget.columnCount()):
+                    item = self.tableWidget.item(row, col)
+                    fila.append(item.text() if item else "")
+                data.append(fila)
+
+            # Crear una tabla para el PDF
+            tabla = Table(data)
+            tabla.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),  # Fondo gris para encabezados
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),  # Texto blanco para encabezados
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Alineación centrada
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),  # Fuente para encabezados
+                ('FONTSIZE', (0, 0), (-1, -1), 10),  # Tamaño de fuente
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Espaciado inferior encabezados
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),  # Fondo beige para datos
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Líneas de la tabla
+            ]))
+
+            # Agregar la tabla al documento
+            elementos.append(tabla)
+
+            # Crear el PDF
+            pdf.build(elementos)
+
+            # Mostrar mensaje de éxito
+            QMessageBox.information(None, "Éxito", f"Reporte PDF generado exitosamente: {filename}")
+
+        except Exception as e:
+            QMessageBox.critical(None, "Error", f"No se pudo generar el PDF: {e}")
+
 
     def __init__(self, ventana_principal):
         super().__init__()
