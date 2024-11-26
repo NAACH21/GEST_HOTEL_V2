@@ -421,7 +421,7 @@ class Ui_GestClie(QtWidgets.QWidget):
         try:
             # Construcción de la consulta SQL inicial (Operación constante)
             sql = "SELECT DNI_Cliente, Nombres, Apellidos, Celular, Correo, Direccion, Sexo,"
-            sql += " CONVERT(DATE, FechaNacimiento) FROM Cliente  "  # O(1)
+            sql += " DATE(FechaNacimiento) FROM Cliente  "  # O(1)
 
             if filtro_busqueda:  # O(1)
                 # Modificación de la consulta según el filtro (Operación constante)
@@ -549,9 +549,9 @@ class Ui_GestClie(QtWidgets.QWidget):
                     sexo = self.cmbSexo.currentText().strip()  # 1
                     fecha_nacimiento = self.dtFechaNacimiento.date().toString("yyyy-MM-dd")  # 1
                     fecha_nacimiento += "T00:00:00"  # 1
-                    sql = f"""                               # 1
-                    INSERT INTO Cliente (DNI_Cliente, Nombres, Apellidos, Celular, Correo, Direccion, Sexo, FechaNacimiento)  # 1
-                    VALUES ({dni_cliente}, '{nombres}', '{apellidos}', '{celular}', '{correo}', '{direccion}', '{sexo}', '{fecha_nacimiento}');  # 1
+                    sql = f"""                               
+                    INSERT INTO Cliente (DNI_Cliente, Nombres, Apellidos, Celular, Correo, Direccion, Sexo, FechaNacimiento)
+                    VALUES ({dni_cliente}, '{nombres}', '{apellidos}', '{celular}', '{correo}', '{direccion}', '{sexo}', '{fecha_nacimiento}');
                     """  # 1
                     conexion.ejecutaSQL(sql)  # 1
                     self.llenaTblCliente(False, "")  # 1
@@ -572,17 +572,17 @@ class Ui_GestClie(QtWidgets.QWidget):
                     sexo = self.cmbSexo.currentText().strip()  # 1
                     fecha_nacimiento = self.dtFechaNacimiento.date().toString("yyyy-MM-dd")  # 1
 
-                    sql = f"""                               # 1
-                    UPDATE Cliente                         # 1
-                    SET Nombres = '{nombres}',              # 1
-                        Apellidos = '{apellidos}',          # 1
-                        Celular = '{celular}',              # 1
-                        Correo = '{correo}',                # 1
-                        Direccion = '{direccion}',          # 1
-                        Sexo = '{sexo}',                    # 1
-                        FechaNacimiento = '{fecha_nacimiento}'  # 1
-                    WHERE DNI_Cliente = {dni_cliente};      # 1
-                    """  # 1
+                    sql = f"""
+                    UPDATE Cliente
+                    SET Nombres = '{nombres}',
+                        Apellidos = '{apellidos}',
+                        Celular = '{celular}',
+                        Correo = '{correo}',
+                        Direccion = '{direccion}',
+                        Sexo = '{sexo}',
+                        FechaNacimiento = '{fecha_nacimiento}'
+                    WHERE DNI_Cliente = {dni_cliente};
+                    """
                     conexion.ejecutaSQL(sql)  # 1
                     self.llenaTblCliente(False, "")  # 1
                     QMessageBox.information(self, "Éxito", "Cliente actualizado correctamente.")  # 1

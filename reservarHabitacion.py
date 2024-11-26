@@ -669,7 +669,7 @@ class Ui_ReserHabi(QtWidgets.QWidget):
 
     def llenaCmbClientes(self, filtro_busqueda, cadBuscar):
         # Construye la consulta SQL para obtener clientes
-        sql = ("SELECT DNI_Cliente, CONCAT(Nombres, ' ', Apellidos) AS nombre_completo "
+        sql = ("SELECT DNI_Cliente, Nombres || ' ' || Apellidos AS nombre_completo "
                "FROM Cliente ")
 
         # Añade un filtro de búsqueda si es necesario

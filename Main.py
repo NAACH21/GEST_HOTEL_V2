@@ -42,9 +42,18 @@ class Ui_Form(QtWidgets.QWidget):
         self.close()
 
     def open_reportes(self):
-        self.reserva = Ui_Reportes(self.id_user, self)
-        self.reserva.show()
+        self.reportes = Ui_Reportes(self)
+        self.reportes.show()
         self.close()
+
+        """try:
+            self.ventana_reportes = QtWidgets.QWidget()  # Crear un widget contenedor
+            self.ui_reportes = Ui_Reportes()  # Instancia de la clase del reporte
+            self.ui_reportes.setupUi(self.ventana_reportes)
+            self.ventana_reportes.show()  # Muestra la ventana
+            self.close()
+        except Exception as e:
+            QMessageBox.critical(None, "Error", f"No se pudo abrir la ventana de reportes: {e}")"""
 
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():

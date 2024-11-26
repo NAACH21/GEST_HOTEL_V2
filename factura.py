@@ -330,7 +330,7 @@ class Ui_Factura(QtWidgets.QWidget):
             monto = total_gravada + total_igv
             reserva_id = id_reserva
             fecha_emision = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            metodo_pago = "Efectivo"  # Ajusta según el método de pago correspondiente
+            metodo_pago = "Efectivo"  ## Ajusta según el método de pago correspondiente
             observacion = "Factura automática."[:30]  # Truncar observación a 30 caracteres para evitar errores
 
             # Consulta SQL con marcadores de parámetros
@@ -338,7 +338,7 @@ class Ui_Factura(QtWidgets.QWidget):
                 INSERT INTO Factura (Monto, Reserva_ID, Fecha, Metodo_Pago, Observacion)
                 VALUES (?, ?, ?, ?, ?);
             """
-
+            print(sql_insert_factura)
             # Ejecutar la consulta con parámetros
             conexion.ejecutarSQL(sql_insert_factura, (monto, reserva_id, fecha_emision, metodo_pago, observacion))
             print("Factura registrada exitosamente en la base de datos.")
