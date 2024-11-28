@@ -5,6 +5,10 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QLineEdi
 from PyQt6.uic.Compiler.qtproxies import QtCore
 from Main import Ui_Form
 import os
+from images import resource_path
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
 
 
 

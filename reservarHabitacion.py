@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableWidget
 from pyexpat.errors import messages
 import conexion
 from gestionCliente import Ui_GestClie
+from images import resource_path
 
 class Ui_ReserHabi(QtWidgets.QWidget):
     def setupUi(self, MainWindow):
@@ -112,7 +113,7 @@ class Ui_ReserHabi(QtWidgets.QWidget):
         self.txtImagenHabitacion = QtWidgets.QLabel(parent=self.widget_2)
         self.txtImagenHabitacion.setGeometry(QtCore.QRect(880, 50, 201, 151))
         self.txtImagenHabitacion.setText("")
-        self.txtImagenHabitacion.setPixmap(QtGui.QPixmap(":/habitacion1.jpg"))
+        self.txtImagenHabitacion.setPixmap(QtGui.QPixmap(":/habitacion1.jpeg"))
         self.txtImagenHabitacion.setScaledContents(True)
         self.txtImagenHabitacion.setObjectName("txtImagenHabitacion")
         self.txtIdHabitacionSele = QtWidgets.QLineEdit(parent=self.widget_2)
@@ -377,7 +378,8 @@ class Ui_ReserHabi(QtWidgets.QWidget):
         self.txtLogo.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         self.txtLogo.setMidLineWidth(-2)
         self.txtLogo.setText("")
-        self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        #self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        self.txtLogo.setPixmap(QtGui.QPixmap(resource_path("imagenes/logo2.PNG")))
         self.txtLogo.setScaledContents(True)
         self.txtLogo.setObjectName("txtLogo")
         self.frame = QtWidgets.QFrame(parent=self.widget)
@@ -723,16 +725,18 @@ class Ui_ReserHabi(QtWidgets.QWidget):
             id_habitacion = self.tblHabitacion.item(selected_row, 0).text()
             tipo_habitacion = self.tblHabitacion.item(selected_row, 1).text()
             self.txtIdHabitacionSele.setText(id_habitacion)
+
             imagen_map = {
-                    "Simple": "sencilla.jpg",
-                    "Suite": "suite.jpg",
-                    "Doble": "doble.jpg",
-                    "Familiar": "familiar.jpg",
-                    "Matrimonial": "matrimonial.jpg"
+                    "Simple": "sencilla.jpeg",
+                    "Suite": "suite.jpeg",
+                    "Doble": "doble.jpeg",
+                    "Familiar": "familiar.jpeg",
+                    "Matrimonial": "matrimonial.jpeg"
             }
 
-            imagen_archivo = imagen_map.get(tipo_habitacion, "default.jpg")
-            pixmap = QtGui.QPixmap(imagen_archivo)
+
+            imagen_archivo = imagen_map.get(tipo_habitacion, "default.jpeg")
+            pixmap = QtGui.QPixmap(resource_path(imagen_archivo))
             self.txtImagenHabitacion.setPixmap(pixmap)
 
     def busqueda(self):

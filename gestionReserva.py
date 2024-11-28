@@ -6,6 +6,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QVBoxLayout,
 import conexion
 from  met_pago import PaymentWindow
 from sel_habitacion import HabitacionWindow
+from images import resource_path
 
 class Ui_GestReser(QtWidgets.QWidget):
     def setupUi(self, Form):
@@ -108,7 +109,8 @@ class Ui_GestReser(QtWidgets.QWidget):
         self.txtLogo.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         self.txtLogo.setMidLineWidth(-2)
         self.txtLogo.setText("")
-        self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        #self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        self.txtLogo.setPixmap(QtGui.QPixmap(resource_path("imagenes/logo2.PNG")))
         self.txtLogo.setScaledContents(True)
         self.txtLogo.setObjectName("txtLogo")
         self.stackedWidget = QtWidgets.QStackedWidget(parent=Form)

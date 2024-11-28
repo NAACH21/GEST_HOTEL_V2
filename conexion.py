@@ -63,9 +63,10 @@ def ejecutaSQL(sql):
 
 """
 import sqlite3
+import os
 
 # Archivo de la base de datos SQLite
-db_name = "sistemahotel.db"
+db_name = os.path.join(os.getenv("LOCALAPPDATA"), "SistemaHotel", "sistemahotel.db")
 
 # Establece la conexión
 conexion = sqlite3.connect(db_name)

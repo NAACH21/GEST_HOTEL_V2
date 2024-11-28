@@ -8,6 +8,7 @@ import json
 import re
 from datetime import datetime
 import conexion
+from images import resource_path
 
 class Ui_Factura(QtWidgets.QWidget):
     def setupUi(self, Form):
@@ -116,7 +117,8 @@ class Ui_Factura(QtWidgets.QWidget):
         self.txtLogo.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         self.txtLogo.setMidLineWidth(-2)
         self.txtLogo.setText("")
-        self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        #self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        self.txtLogo.setPixmap(QtGui.QPixmap(resource_path("logo2.PNG")))
         self.txtLogo.setScaledContents(True)
         self.txtLogo.setObjectName("txtLogo")
         self.frame = QtWidgets.QFrame(parent=self.widget)

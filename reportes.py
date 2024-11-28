@@ -16,6 +16,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
 from datetime import datetime
+from images import resource_path
 
 class Ui_Reportes(QtWidgets.QWidget):
     def setupUi(self, Form):
@@ -30,7 +31,9 @@ class Ui_Reportes(QtWidgets.QWidget):
         self.txtLogo.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         self.txtLogo.setMidLineWidth(-2)
         self.txtLogo.setText("")
-        self.txtLogo.setPixmap(QtGui.QPixmap(":/logo2.PNG"))
+        #self.txtLogo.setPixmap(QtGui.QPixmap(":/logo2.PNG"))
+        self.txtLogo.setPixmap(QtGui.QPixmap(resource_path("imagenes/logo2.PNG")))
+
         self.txtLogo.setScaledContents(True)
         self.txtLogo.setObjectName("txtLogo")
         self.frame = QtWidgets.QFrame(parent=self.widget)

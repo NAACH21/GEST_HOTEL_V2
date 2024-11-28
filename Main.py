@@ -13,6 +13,8 @@ from gestionHabitacion import  Ui_GestHabi
 from factura import Ui_Factura
 from reportes import Ui_Reportes
 
+import conexion
+
 class ClickableLabel(QLabel):
     clicked = pyqtSignal()
 
@@ -76,7 +78,7 @@ class Ui_Form(QtWidgets.QWidget):
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setGeometry(QRect(80, -30, 221, 201))
-        self.label_3.setPixmap(QPixmap(u"OIP.jpeg"))
+        self.label_3.setPixmap(QPixmap(resource_path(u"OIP.jpeg")))
         self.label_3.setScaledContents(True)
 
 
@@ -251,17 +253,17 @@ class Ui_Form(QtWidgets.QWidget):
         self.label_8 = QLabel(self.centralwidget)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setGeometry(QRect(490, 220, 111, 111))
-        self.label_8.setPixmap(QPixmap(u"hotel-reception-bell-svgrepo-com.svg"))
+        self.label_8.setPixmap(QPixmap(resource_path(u"hotel-reception-bell-svgrepo-com.svg")))
         self.label_8.setScaledContents(True)
         self.label_9 = QLabel(self.centralwidget)
         self.label_9.setObjectName(u"label_9")
         self.label_9.setGeometry(QRect(990, 210, 111, 111))
-        self.label_9.setPixmap(QPixmap(u"bed-svgrepo-com.svg"))
+        self.label_9.setPixmap(QPixmap(resource_path(u"bed-svgrepo-com.svg")))
         self.label_9.setScaledContents(True)
         self.label_10 = QLabel(self.centralwidget)
         self.label_10.setObjectName(u"label_10")
         self.label_10.setGeometry(QRect(1480, 220, 111, 111))
-        self.label_10.setPixmap(QPixmap(u"people-svgrepo-com.svg"))
+        self.label_10.setPixmap(QPixmap(resource_path(u"people-svgrepo-com.svg")))
         self.label_10.setScaledContents(True)
         self.label_11 = QLabel(self.centralwidget)
         self.label_11.setObjectName(u"label_11")
@@ -310,7 +312,7 @@ class Ui_Form(QtWidgets.QWidget):
         self.label_14 = QLabel(self.centralwidget)
         self.label_14.setObjectName(u"label_14")
         self.label_14.setGeometry(QRect(1840, 0, 71, 71))
-        self.label_14.setPixmap(QPixmap(u"user-circle-svgrepo-com.svg"))
+        self.label_14.setPixmap(QPixmap(resource_path(u"user-circle-svgrepo-com.svg")))
         self.label_14.setScaledContents(True)
         self.label_15 = QLabel(self.centralwidget)
         self.label_15.setObjectName(u"label_15")
@@ -369,7 +371,44 @@ class Ui_Form(QtWidgets.QWidget):
         QApplication.quit()
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow", None))
+
+        # Consulta del usuario por DNI
+        sql = "SELECT * FROM Empleado WHERE DNI_Empleado = ?"
+        user = conexion.resultadoSQL(sql, (self.id_user,))
+        if not user:
+            print("Error: No se encontró el usuario.")
+            ingreso = "Usuario no encontrado"
+        else:
+            ingreso = user[0][1] + " " + user[0][2]
+
+        # Consulta de ocupantes
+        sql1 = """ 
+            SELECT COUNT(*) AS CantidadOcupantes
+            FROM Reserva
+            WHERE Estado = 'Confirmado';
+        """
+        ocupantes = conexion.resultadoSQL(sql1)
+        ocupantes1 = ocupantes[0][0] if ocupantes else 0
+
+        # Consulta de habitaciones ocupadas
+        sql2 = """ 
+            SELECT COUNT(*) AS HabitacionesOcupadas
+            FROM Habitacion
+            WHERE Estado = 'Ocupado';
+        """
+        ocupadas = conexion.resultadoSQL(sql2)
+        ocupadas1 = ocupadas[0][0] if ocupadas else 0
+
+        # Consulta de habitaciones libres
+        sql3 = """ 
+            SELECT COUNT(*) AS HabitacionesLibres
+            FROM Habitacion
+            WHERE Estado = 'Disponible';
+        """
+        libres = conexion.resultadoSQL(sql3)
+        libres1 = libres[0][0]
+        print(libres1)
         self.label.setText("")
         self.label_2.setText("")
         self.label_3.setText("")
@@ -389,12 +428,12 @@ class Ui_Form(QtWidgets.QWidget):
         self.label_11.setText(QCoreApplication.translate("MainWindow", u" HABITACIONES LIBRES", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u" HABITACIONES OCUPADAS", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"OCUPANTES", None))
-        self.Txt_cant_libre.setText(QCoreApplication.translate("MainWindow", u"00", None))
-        self.Txt_cant_ocupado.setText(QCoreApplication.translate("MainWindow", u"00", None))
-        self.Txt_ocupants.setText(QCoreApplication.translate("MainWindow", u"00", None))
+        self.Txt_cant_libre.setText(QCoreApplication.translate("MainWindow", f"0{libres1}", None))
+        self.Txt_cant_ocupado.setText(QCoreApplication.translate("MainWindow", f"0{ocupadas1}", None))
+        self.Txt_ocupants.setText(QCoreApplication.translate("MainWindow", f"0{ocupantes1}", None))
         self.label_14.setText("")
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"Hola,", None))
-        self.labelNombre.setText(QCoreApplication.translate("MainWindow", u"NOMBRE", None))
+        self.labelNombre.setText(QCoreApplication.translate("MainWindow", ingreso, None))
 
 
     def keyPressEvent(self, event):

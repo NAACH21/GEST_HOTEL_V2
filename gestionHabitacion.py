@@ -4,6 +4,7 @@ from PyQt6.QtCore import Qt, QCoreApplication, QRect
 from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QMainWindow, QApplication, QMessageBox, QTableWidgetItem, QFileDialog, QPushButton
 import conexion
+from images import resource_path
 
 class Ui_GestHabi(QtWidgets.QWidget):
     def setupUi(self, gestionHabitacion):
@@ -321,7 +322,7 @@ class Ui_GestHabi(QtWidgets.QWidget):
         self.txtImagenHabitacion = QtWidgets.QLabel(parent=self.widget_3)
         self.txtImagenHabitacion.setGeometry(QtCore.QRect(860, 10, 301, 211))
         self.txtImagenHabitacion.setText("")
-        self.txtImagenHabitacion.setPixmap(QtGui.QPixmap(":/habitacion1.jpg"))
+        self.txtImagenHabitacion.setPixmap(QtGui.QPixmap(":/habitacion1.jpeg"))
         self.txtImagenHabitacion.setScaledContents(True)
         self.txtImagenHabitacion.setObjectName("txtImagenHabitacion")
         self.txtLogo = QtWidgets.QLabel(parent=self.widget)
@@ -329,7 +330,8 @@ class Ui_GestHabi(QtWidgets.QWidget):
         self.txtLogo.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.NoContextMenu)
         self.txtLogo.setMidLineWidth(-2)
         self.txtLogo.setText("")
-        self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        #self.txtLogo.setPixmap(QtGui.QPixmap("logo2.PNG"))
+        self.txtLogo.setPixmap(QtGui.QPixmap(resource_path("logo2.PNG")))
         self.txtLogo.setScaledContents(True)
         self.txtLogo.setObjectName("txtLogo")
         self.frame = QtWidgets.QFrame(parent=self.widget)
@@ -748,18 +750,18 @@ class Ui_GestHabi(QtWidgets.QWidget):
 
         # Mapear el tipo de habitación a la imagen correspondiente
         imagen_map = {
-            "Simple": "sencilla.jpg",  # 1
-            "Suite": "suite.jpg",  # 1
-            "Doble": "doble.jpg",  # 1
-            "Familiar": "familiar.jpg",  # 1
-            "Matrimonial": "matrimonial.jpg"  # 1
+            "Simple": "sencilla.jpeg",  # 1
+            "Suite": "suite.jpeg",  # 1
+            "Doble": "doble.jpeg",  # 1
+            "Familiar": "familiar.jpeg",  # 1
+            "Matrimonial": "matrimonial.jpeg"  # 1
         }
 
         # Obtener el nombre del archivo de la imagen correspondiente
-        imagen_archivo = imagen_map.get(tipo_habitacion, "default.jpg")  # 1
+        imagen_archivo = imagen_map.get(tipo_habitacion, "default.jpeg")  # 1
 
         # Establecer la imagen en el QLabel
-        pixmap = QtGui.QPixmap(imagen_archivo)  # 1
+        pixmap = QtGui.QPixmap(resource_path(imagen_archivo))  # 1
         self.txtImagenHabitacion.setPixmap(pixmap)  # 1
     # Complejidad total: O(1)
 

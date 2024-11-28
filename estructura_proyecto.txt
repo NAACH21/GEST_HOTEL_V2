@@ -1,0 +1,91 @@
+Listado de rutas de carpetas
+El n·mero de serie del volumen es 200F-F17E
+C:.
+|   bed-svgrepo-com.svg
+|   conexion.py
+|   doble.jpeg
+|   estructura_proyecto.txt
+|   factura.py
+|   familiar.jpeg
+|   gestionCliente.py
+|   gestionHabitacion.py
+|   gestionReserva.py
+|   hotel-reception-bell-svgrepo-com.svg
+|   images.py
+|   instalador.iss
+|   LOGIN.py
+|   LOGIN.spec
+|   logo2.PNG
+|   Main.py
+|   matrimonial.jpeg
+|   met_pago.py
+|   OIP.jpeg
+|   people-svgrepo-com.svg
+|   pngwing.com.png
+|   reportes.py
+|   reporte_cliente_20241126_133008.pdf
+|   reporte_habitacion_Suite_20241126_133012.pdf
+|   reservarHabitacion.py
+|   sel_habitacion.py
+|   sencilla.jpeg
+|   sistemahotel.db
+|   sqlite3.exe
+|   suite.jpeg
+|   user-circle-svgrepo-com.svg
+|   
++---.idea
+|   |   .gitignore
+|   |   APP GESTION RESERVA HOTEL - final.iml
+|   |   misc.xml
+|   |   modules.xml
+|   |   vcs.xml
+|   |   
+|   \---inspectionProfiles
+|           profiles_settings.xml
+|           
++---build
+|   \---LOGIN
+|       |   Analysis-00.toc
+|       |   base_library.zip
+|       |   EXE-00.toc
+|       |   LOGIN.pkg
+|       |   PKG-00.toc
+|       |   PYZ-00.pyz
+|       |   PYZ-00.toc
+|       |   warn-LOGIN.txt
+|       |   xref-LOGIN.html
+|       |   
+|       \---localpycs
+|               pyimod01_archive.pyc
+|               pyimod02_importers.pyc
+|               pyimod03_ctypes.pyc
+|               pyimod04_pywin32.pyc
+|               struct.pyc
+|               
++---imagenes
+|       doble.jpeg
+|       familiar.jpeg
+|       logo2.PNG
+|       matrimonial.jpeg
+|       OIP.jpeg
+|       pngwing.com.png
+|       sencilla.jpeg
+|       suite.jpeg
+|       
++---output
+|       SistemaHotel_Installer.exe
+|       
+\---__pycache__
+        conexion.cpython-311.pyc
+        factura.cpython-311.pyc
+        gestionCliente.cpython-311.pyc
+        gestionHabitacion.cpython-311.pyc
+        gestionReserva.cpython-311.pyc
+        images.cpython-311.pyc
+        LOGIN.cpython-311.pyc
+        Main.cpython-311.pyc
+        met_pago.cpython-311.pyc
+        reportes.cpython-311.pyc
+        reservarHabitacion.cpython-311.pyc
+        sel_habitacion.cpython-311.pyc
+        
